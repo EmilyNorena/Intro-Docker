@@ -28,6 +28,7 @@ Este proyecto implementa un servidor web en Java, utilizando únicamente librer�
 - Soporta reflexión en Java.
 - Permite cargar un POJO y derivar una aplicación Web a partir de él.
 - Explora el classpath y registra automáticamente las clases anotadas como controladores
+- **Se apaga usando hooks**
 
 ### Descripción del proceso de virtualización
 
@@ -91,10 +92,9 @@ Posterior a esto, es necesario clonar el repositorio de la siguiente manera:
 <pre> https://github.com/EmilyNorena/Intro-Docker.git </pre>
 
 Finalmente, sigue estos pasos:
-1. Construye el proyecto: <pre>mvn clean package</pre>
+1. Compila y empaqueta: <pre>mvn clean install</pre>
    La salida debe ser BUILD SUCCESS.
-2. Ejecuta la aplicación: <pre> java -cp target/classes com.mycompany.httpserver.WebServer </pre>
-   La consola debe mostrar el siguiente mensaje: Server started on port 8080.
+2. Ejecuta la aplicación: <pre> java -cp "target/classes;target/dependency/*" com.mycompany.httpserver.WebServer </pre>
 
 ---
 
@@ -183,8 +183,6 @@ Cargando HelloController desde la línea de comandos:
 
 <img width="370" height="222" alt="image" src="https://github.com/user-attachments/assets/16f4b780-a5bf-4f8d-b459-783498a0d0b6" />
 <img width="400" height="214" alt="image" src="https://github.com/user-attachments/assets/5c330cf8-1cd0-485c-bebc-b75dc3cc649a" />
-
-
 
 ---
 
