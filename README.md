@@ -288,6 +288,9 @@ volumes:
   <img src="images/image4.png">
 </p>
 
+## Evidencias del funcionamiento con despliegue en AWS
+
+
 ---
 
 ## Arquitectura
