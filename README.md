@@ -88,7 +88,7 @@ Para correr el proyecto localmente, debes tener instalado:
 3. Git (https://git-scm.com/downloads). Puedes verificar la versión ejecutando en la terminal: <pre> git --version </pre>
 
 Posterior a esto, es necesario clonar el repositorio de la siguiente manera:
-<pre> https://github.com/EmilyNorena/Servidor-web-reflexivo.git </pre>
+<pre> https://github.com/EmilyNorena/Intro-Docker.git </pre>
 
 Finalmente, sigue estos pasos:
 1. Construye el proyecto: <pre>mvn clean package</pre>
