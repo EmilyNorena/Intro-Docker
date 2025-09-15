@@ -30,6 +30,10 @@ Este proyecto implementa un servidor web en Java, utilizando únicamente librer�
 - Explora el classpath y registra automáticamente las clases anotadas como controladores
 - **Se apaga usando hooks**
 
+<p align="center">
+  <img src="images/image6.png">
+</p>
+
 ### Descripción del proceso de virtualización
 
 En este taller construimos una pequeña aplicación web utilizando nuestro propio microframework como punto de partida. Una vez finalizada la aplicación, aprendimos a contenizarla creando una imagen de Docker y desplegándola en nuestra máquina local.
@@ -93,6 +97,13 @@ Posterior a esto, es necesario clonar el repositorio de la siguiente manera:
 
 Finalmente, sigue estos pasos:
 1. Compila y empaqueta: <pre>mvn clean install</pre>
+
+<p align="center">
+  <img src="images/dependency.png">
+</p>
+
+Nos aseguramos de que las dependencias están en el directorio target y que continentemente las dependencia, es decir las librerías necesarias para correr en formato jar.
+
    La salida debe ser BUILD SUCCESS.
 2. Ejecuta la aplicación: <pre> java -cp "target/classes;target/dependency/*" com.mycompany.httpserver.WebServer </pre>
 
@@ -146,7 +157,6 @@ De esta forma, el servidor puede manejar tanto contenido estático (HTML, CSS, J
 <img width="400" height="240" alt="image" src="https://github.com/user-attachments/assets/fd67dd6f-0c5d-4d1b-aefb-984b0f6c6fce" />
 <img width="400" height="303" alt="image" src="https://github.com/user-attachments/assets/2baa6d44-6ffc-4aaf-8a8a-c3898523e58e" /><br>
 
-<br>
 
 <br>**Para cargar POJO's desde la línea de comandos**
 
@@ -186,6 +196,99 @@ Cargando HelloController desde la línea de comandos:
 
 ---
 
+## ¿Cómo generar las imágenes para desplegarlo?
+
+1. En la raíz del proyecto creamos un archivo denominado Dockerfile con el siguiente contenido:
+
+<pre> 
+  FROM openjdk:17
+  
+  WORKDIR /usrapp/bin
+  
+  ENV PORT=6000
+  
+  COPY target/classes /usrapp/bin/classes
+  COPY target/dependency /usrapp/bin/dependency
+  
+  CMD ["java","-cp","classes:dependency/*","com.mycompany.httpserver.WebServer"]
+
+</pre> 
+
+2. Usando la herramienta de línea de comandos de Docker construimos la imagen:
+
+`docker build --tag dockermicroframework .`
+
+3. Revisamos que la imagen fue construida:
+
+`docker images`
+
+4. A partir de la imagen creada creamos una instancia de un contenedor docker independiente de la consola (opción “-d”) y con el puerto 6000 enlazado a un puerto físico de la máquina (opción -p):
+
+`docker run -d -p 34000:6000 --name firstdockercontainer dockermicroframework`.
+
+<p align="center">
+  <img src="images/image1.png">
+</p>
+
+<p align="center">
+  <img src="images/image2.png">
+</p>
+
+5. Usamos docker-compose para generar automáticamente una configuración docker, por ejemplo un container y una instancia a de mongo en otro container. Creamos en la raíz de su directorio el archivo docker-compose.yml con el siguiente contenido:
+
+<pre>
+version: '2'
+ 
+ 
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: web
+    ports:
+      - "8087:6000"
+  db:
+    image: mongo:3.6.1
+    container_name: db
+    volumes:  
+      - mongodb:/data/db
+      - mongodb_config:/data/configdb
+    ports:
+      - 27017:27017
+    command: mongod
+
+volumes:
+  mongodb:
+  mongodb_config:
+  
+</pre>
+
+6. Ejecutamos docker compose:
+
+`docker-compose up -d`
+
+7. Verificamos que se crearon los servicios:
+
+`docker ps`
+
+<p align="center">
+  <img src="images/image3.png">
+</p>
+
+8. Creamos un repositorio en DockerHub y en el motor de docker local creamos una referencia a la imagen con el nombre del repositorio a donde vamos a subirla:
+
+`docker tag dockermicroframework emilynorena/dockermicroframework`
+
+9. Empujamos la imagen al repositorio en DockerHub
+
+`docker push emilynorena/dockermicroframework:latest`
+
+<p align="center">
+  <img src="images/image4.png">
+</p>
+
+---
 
 ## Arquitectura
 
