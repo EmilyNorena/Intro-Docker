@@ -18,7 +18,7 @@ Este proyecto implementa un servidor web en Java, utilizando únicamente librer�
 - Atiende múltiples solicitudes seguidas de forma **concurrente** (haciendo uso de un pool de hilos).
 
 <p align="center">
-  <img src="img/image5">
+  <img src="images/image5.png">
 </p>
 
 - Archivos estáticos (HTML, CSS, JS, imágenes) servidos desde un directorio configurable.
